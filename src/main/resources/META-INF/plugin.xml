@@ -1,0 +1,64 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>dekun.wang.idea-native-markdown-plugin</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Native-Markdown</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="wangdekunemail@gmail.com" url="https://blog.dekun.wang">wangdekun</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description>
+        <![CDATA[
+       - markdown files are opened using local Typora
+        <br>
+       -  markdown 文件使用本地 Markdown App 打开
+        <br>
+       -  兼容 IntelliJ IDEA 2022.2.4 ～2023.*
+        ]]>
+    </description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable id="dekun.wang.idea-open-typora-plugin"
+                                 instance="dekun.wang.markdown.settings.PluginSettingsConfigurable"
+                                 dynamic="true"/>
+        <applicationService serviceImplementation="dekun.wang.markdown.settings.PluginSettings"/>
+    </extensions>
+    <actions>
+        <action id="dekun.wang.idea-native-markdown-plugin.actions.OpenProjectDirectoryAction"
+                class="dekun.wang.markdown.actions.OpenProjectDirectoryAction" text="OpenInTypora"
+                description="Open the project directory in external Markdown"
+                icon="Icons.Markdown">
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+            <add-to-group group-id="NavBarToolBar" anchor="first"/>
+            <add-to-group group-id="RightToolbarSideGroup" anchor="first"/> <!-- Rider 2021.3 -->
+        </action>
+        <action id="dekun.wang.idea-native-markdown-plugin.actions.OpenInTypora"
+                class="dekun.wang.markdown.actions.OpenSelectedDirectoryAction"
+                text="OpenInTypora"
+                description="Open current file location in external Markdown"
+                icon="Icons.Markdown">
+            <add-to-group group-id="RunContextPopupGroup" anchor="before" relative-to-action="OpenInBrowserGroup"/>
+        </action>
+        <action id="dekun.wang.idea-native-markdown-plugin.actions.SetAsDefaultDirectoryAction"
+                class="dekun.wang.markdown.actions.SetAsDefaultDirectoryAction"
+                text="设置为外部的默认目录"
+                description="Set current directory location as the default path for external markdown"
+                icon="Icons.Markdown">
+            <add-to-group group-id="RunContextPopupGroup" anchor="after"
+                          relative-to-action="dekun.wang.idea-native-markdown-plugin.actions.OpenInTypora"/>
+        </action>
+    </actions>
+</idea-plugin>
